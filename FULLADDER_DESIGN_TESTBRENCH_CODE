@@ -1,0 +1,37 @@
+//DESIGN CODE
+module FA(a,b,c,sum,carry);
+  input a,b,c;
+  output sum,carry;
+  assign sum = a^b^c;
+  assign carry = a&b|b&c|a&c;
+endmodule
+
+
+//TESTBENCH CODE
+module FA_tb;
+  reg a,b,c;
+  wire sum,carry;
+  FA u1(.a(a),.b(b),.c(c),.sum(sum),.carry(carry));
+  initial begin
+    $monitor("a=%0b b=%0b c=%0b sum=%0b carry=%0b",a,b,c,sum,carry);
+    a=0;b=0;c=1;
+    #10;a=0;b=1;c=0;
+    #10;a=0;b=1;c=1;
+    #10;a=1;b=0;c=0;
+    #10;a=1;b=0;c=1;
+    #10;a=1;b=1;c=0;
+    #10;a=1;b=1;c=1;
+    #10;a=1;b=1;c=1;
+    $finish;
+  end
+endmodule
+
+
+// OUTPUT
+a=0 b=0 c=1 sum=1 carry=0
+# KERNEL: a=0 b=1 c=0 sum=1 carry=0
+# KERNEL: a=0 b=1 c=1 sum=0 carry=1
+# KERNEL: a=1 b=0 c=0 sum=1 carry=0
+# KERNEL: a=1 b=0 c=1 sum=0 carry=1
+# KERNEL: a=1 b=1 c=0 sum=0 carry=1
+# KERNEL: a=1 b=1 c=1 sum=1 carry=1

@@ -1,0 +1,29 @@
+// DESIGN CODE
+module HALF_subtractor(a,b,c,diff,barrow);
+  input a,b,c;
+  output diff,barrow;
+  assign diff = a^b;
+  assign barrow = ~a&b;
+endmodule
+
+// TESTBENCH CODE
+module tb;
+  reg a,b;
+  wire diff,barrow;
+  HALF_subtractor u1(.a(a),.b(b),.diff(diff),.barrow(barrow));
+  initial begin
+    $monitor("a=%0b b=%0b diff=%0b barrow=%0b",a,b,diff,barrow);
+   a=0;b=0;
+    #10;a=0;b=1;
+    #10;a=1;b=0;
+    #10;a=1;b=1;
+    #10;a=1;b=1;
+    $finish;
+  end
+endmodule
+
+//OUTPUT
+     a=0 b=0 diff=0 barrow=0
+# KERNEL: a=0 b=1 diff=1 barrow=1
+# KERNEL: a=1 b=0 diff=1 barrow=0
+# KERNEL: a=1 b=1 diff=0 barrow=0

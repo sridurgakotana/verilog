@@ -1,0 +1,39 @@
+
+// DESIGN CODE
+module logic_gates(a, b, and_out, or_out, nand_out, nor_out, xnor_out, xor_out, not_out);
+                   input a,b;
+                   output and_out, or_out, nand_out, nor_out, xnor_out, xor_out, not_out;
+                   assign and_out = a&b;
+                   assign or_out = a|b;
+                   assign nand_out = ~(a&b);
+                   assign nor_out = ~(a|b);
+                   assign xor_out = a^b;
+                   assign xnor_out = ~(a^b);
+                   assign not_out = ~a;
+                   endmodule
+
+
+
+// TESTBENCH CODE
+module tb;
+  reg a,b;
+  wire and_out, or_out, nand_out, nor_out, xnor_out, xor_out, not_out;
+  logic_gates u1(.and_out(and_out),. or_out(or_out),. nand_out(nand_out),. nor_out(nor_out),. xnor_out(xnor_out),. xor_out(xor_out),. not_out(not_out),.a(a),.b(b));
+  initial
+    begin
+      a=0; b=0; #10;
+      a=0; b=1; #10;
+      a=1; b=0; #10;
+      a=1; b=1; #10;
+    end
+    initial 
+    begin
+      $monitor("a = %b, b = %b, and = %b, or = %b, nand = %b, nor = %b, xnor = %b, xor = %b, not_out = %b",a, b, and_out, or_out, nand_out, nor_out, xnor_out, xor_out, not_out);
+                end
+               endmodule
+  
+// OUTPUT
+a = 0, b = 0, and = 0, or = 0, nand = 1, nor = 1, xnor = 1, xor = 0, not_out = 1
+a = 0, b = 1, and = 0, or = 1, nand = 1, nor = 0, xnor = 0, xor = 1, not_out = 1
+a = 1, b = 0, and = 0, or = 1, nand = 1, nor = 0, xnor = 0, xor = 1, not_out = 0
+a = 1, b = 1, and = 1, or = 1, nand = 0, nor = 0, xnor = 1, xor = 0, not_out = 0

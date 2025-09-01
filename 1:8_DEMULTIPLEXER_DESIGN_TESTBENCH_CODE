@@ -1,0 +1,55 @@
+// DESIGN CODE
+// 1:8 Demultiplexer
+module demux(d,sel,y);
+  input d;
+  input [2:0] sel;
+  output reg [7:0] y;
+  always @(*)
+    begin
+      y = 8'b00000000;
+      case(sel)
+        3'b000: y[0] = d;
+        3'b001: y[1] = d;
+        3'b010: y[2] = d;
+        3'b011: y[3] = d;
+        3'b100: y[4] = d;
+        3'b101: y[5] = d;
+        3'b110: y[6] = d;
+        3'b111: y[7] = d;
+      endcase
+    end 
+endmodule
+
+// TESTBENCH CODE
+module tb;
+  reg d;
+  reg [2:0] sel;
+  wire [7:0] y;
+  demux u1(.y(y),.sel(sel),.d(d));
+  initial
+    begin
+      d = 1; sel = 3'b000; #10;  
+      d = 1; sel = 3'b001; #10;
+      d = 1; sel = 3'b010; #10;
+      d = 1; sel = 3'b011; #10;
+      d = 1; sel = 3'b100; #10;
+      d = 1; sel = 3'b101; #10;
+      d = 1; sel = 3'b110; #10;
+      d = 1; sel = 3'b111; #10;
+    end
+  initial
+    begin
+      
+      $monitor("d = %0b,sel = %0b,y = %b",d, sel, y);
+    end 
+endmodule
+
+//OUTPUT
+          d = 1 | sel = 0 | y = 00000001
+# KERNEL: d = 1 | sel = 1 | y = 00000010
+# KERNEL: d = 1 | sel = 10 | y = 00000100
+# KERNEL: d = 1 | sel = 11 | y = 00001000
+# KERNEL: d = 1 | sel = 100 | y = 00010000
+# KERNEL: d = 1 | sel = 101 | y = 00100000
+# KERNEL: d = 1 | sel = 110 | y = 01000000
+# KERNEL: d = 1 | sel = 111 | y = 10000000

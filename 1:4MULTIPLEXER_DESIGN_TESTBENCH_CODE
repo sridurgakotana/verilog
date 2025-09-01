@@ -1,0 +1,51 @@
+// Code your design here
+// 4:1 Multiplexer code in behavioural model
+module mux(s, a, f);
+  input [3:0] a;
+  input [1:0] s;
+  output reg f;
+  
+  always @(*) begin
+      case(s)
+        2'b00: f=a[0];
+        2'b01: f=a[1];
+        2'b10: f=a[2];
+        2'b11: f=a[3];
+        default: f=1'bx;
+      endcase
+    end 
+endmodule
+
+
+
+// Code your testbench here
+// or browse Examples
+module tb;
+  reg[3:0] a;
+  reg[1:0] s;
+  wire f;
+  mux u1 (.f(f),.a(a),.s(s));
+  initial
+    begin
+      a = 4'b1011;
+      s = 2'b00;
+        #10; s=2'b01;
+        #10; s=2'b10;
+        #10; s=2'b11;
+      #10; $finish;
+    end
+  
+  initial 
+    begin
+      $monitor("s=%0b,f=%0b",s,f);
+    end
+endmodule
+
+//OUTPUT
+          s=0,f=1
+# KERNEL: s=1,f=1
+# KERNEL: s=10,f=0
+# KERNEL: s=11,f=1
+
+
+//OUTPUT

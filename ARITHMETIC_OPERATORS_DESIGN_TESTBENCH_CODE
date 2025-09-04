@@ -1,0 +1,34 @@
+// DESIGN CODE
+// Arithmetic operators design code
+module arithmetic_ops (a,b,add,sub,mul,div,mod);
+  input logic [7:0] a,b;
+  output logic [7:0] add,sub,mul,div,mod;
+  assign add = a + b;
+  assign sub = a - b;
+  assign mul = a * b;
+  assign div = (b != 0) ? a / b : 8'b0;
+  assign mod = (b != 0) ? a % b : 8'b0;
+endmodule
+
+// TESTBENCH CODE
+module tb;
+  logic [7:0] a,b;
+  logic [7:0] add,sub,mul,div,mod;
+  
+  arithmetic_ops u1 (.add(add), .sub(sub), .mul(mul), .div(div), .mod(mod), .a(a), .b(b));
+  
+  initial begin
+    a = 10; b = 5; #10;
+    a = 20; b = 3; #10;
+    a = 15; b = 0; #10;
+  end
+  
+  initial begin
+    $monitor("a=%d, b=%d, sum=%d, diff=%d, prod=%d, quo=%d, rem=%d",a,b,add,sub,mul,div,mod);
+  end
+endmodule
+
+// OUTPUT:
+ a= 10, b=  5, sum= 15, diff=  5, prod= 50, quo=  2, rem=  0
+# KERNEL: a= 20, b=  3, sum= 23, diff= 17, prod= 60, quo=  6, rem=  2
+# KERNEL: a= 15, b=  0, sum= 15, diff= 15, prod=  0, quo=  0, rem=  0

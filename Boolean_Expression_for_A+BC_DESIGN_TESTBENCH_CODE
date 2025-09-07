@@ -1,0 +1,57 @@
+// DESIGN CODE
+//Boolean Expression for A+BC
+module not_(a,y);
+  input a;
+  output y;
+  supply1 vdd;
+  supply0 vss;
+  pmos(y, vdd, a);
+  nmos(y, vss, a);
+endmodule
+
+module boolean_expression(a,b,c,y);
+  input a,b,c;
+  output y;
+  supply1 vdd;
+  supply0 vss;
+  wire w1,w2,w3;
+  pmos(w1, vdd, b);
+  pmos(w1, vdd, c);
+  pmos(w3, w1, a);
+  nmos(w3, w2, b);
+  nmos(w2, vss, c);
+  nmos(w3, vss, a);
+  not_ u1(.a(w3),.y(y));
+endmodule
+
+
+
+// TESTBENCH CODE
+module tb;
+  reg a,b,c;
+  wire y;
+  boolean_expression u1(.a(a),.b(b),.c(c),.y(y));
+  initial 
+    begin
+      $monitor(" a=%0b, | b=%0b, | c=%0b, | y=%0b", a,b,c,y);
+      a=0;b=0;c=0;#10;
+      a=0;b=0;c=1;#10;
+      a=0;b=1;c=0;#10;
+      a=0;b=1;c=1;#10;
+      a=1;b=0;c=0;#10;
+      a=1;b=0;c=1;#10;
+      a=1;b=1;c=0;#10;
+      a=1;b=1;c=1;#10;
+    end
+endmodule
+
+
+OUTPUT:
+           a=0, | b=0, | c=0, | y=0
+# KERNEL:  a=0, | b=0, | c=1, | y=0
+# KERNEL:  a=0, | b=1, | c=0, | y=0
+# KERNEL:  a=0, | b=1, | c=1, | y=1
+# KERNEL:  a=1, | b=0, | c=0, | y=1
+# KERNEL:  a=1, | b=0, | c=1, | y=1
+# KERNEL:  a=1, | b=1, | c=0, | y=1
+# KERNEL:  a=1, | b=1, | c=1, | y=1
